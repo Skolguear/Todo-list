@@ -1,10 +1,8 @@
 
 
-
-export class Todo {
+class Todo {
 
     /**
-     * 
      * @param {String} description 
      */
 
@@ -14,4 +12,5 @@ export class Todo {
         this.done = false;
         this.createAt = new Date()
     }
+
 }
