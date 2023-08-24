@@ -1,6 +1,6 @@
 
 
-class Todo {
+export class Todo {
 
     /**
      * @param {String} description 
