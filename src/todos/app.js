@@ -19,7 +19,7 @@ export const App = (elementId) => {
     const displayTodos = () => {
         const todos = todoStore.getTodos(todoStore.getCurrentFilter())//no regresa el filtro seleccionado.
         //console.log(todos);
-        renderTodos(ElementIDs.TodoList, todos) //! ID donve vamos a renderizar, todos por tipo de filtrado.
+        renderTodos(ElementIDs.TodoList, todos) //! ID donde vamos a renderizar, todos por tipo de filtrado.
     }
 
     // Función autoinvocada  para cuando se llama a App
