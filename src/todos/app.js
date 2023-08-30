@@ -5,6 +5,7 @@ import { renderTodos } from './use-cases';
 
 const ElementIDs = {
     TodoList: '.todo-list',
+    NewTodoInput: '#new-todo-input',
 }
 
 /**
@@ -22,7 +23,7 @@ export const App = (elementId) => {
         renderTodos(ElementIDs.TodoList, todos) //! ID donde vamos a renderizar, todos por tipo de filtrado.
     }
 
-    // Función autoinvocada  para cuando se llama a App
+    // Cuando la Función App() se llama
     (() => {
         const app = document.createElement('div');
         app.innerHTML = html;
@@ -30,4 +31,17 @@ export const App = (elementId) => {
         displayTodos()
     })();
 
+    //Referencias HTML
+    const newDecriptionInput = document.querySelector(ElementIDs.NewTodoInput)
+
+    //listeners
+    newDecriptionInput.addEventListener('keyup', (event) => {
+        //Validaciones
+        if(event.keyCode != 13) return;
+        if (event.target.value.trim().length === 0) return;
+
+        todoStore.addTodo(event.target.value);
+        displayTodos();
+        event.target.value = '';
+    })
 }
