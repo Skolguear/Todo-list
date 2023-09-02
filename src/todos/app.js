@@ -14,34 +14,40 @@ const ElementIDs = {
  */
 
 // el encargado de "redibujar" los todos
-export const App = (elementId) => {
+export const App = ( elementId ) => {
 
     //rebice uno de los filtros especificos del archivo todo.store de la funcion getTodos
     const displayTodos = () => {
-        const todos = todoStore.getTodos(todoStore.getCurrentFilter())//no regresa el filtro seleccionado.
-        //console.log(todos);
-        renderTodos(ElementIDs.TodoList, todos) //! ID donde vamos a renderizar, todos por tipo de filtrado.
+        const todos = todoStore.getTodos( todoStore.getCurrentFilter() );
+        renderTodos( ElementIDs.TodoList, todos );
     }
 
     // Cuando la Función App() se llama
     (() => {
         const app = document.createElement('div');
         app.innerHTML = html;
-        document.querySelector(elementId).append(app)
+        document.querySelector(elementId).append( app )
         displayTodos()
     })();
 
     //Referencias HTML
-    const newDecriptionInput = document.querySelector(ElementIDs.NewTodoInput)
+    const newDecriptionInput = document.querySelector(ElementIDs.NewTodoInput);
+    const todoListUL = document.querySelector(ElementIDs.TodoList);
 
     //listeners
-    newDecriptionInput.addEventListener('keyup', (event) => {
-        //Validaciones
-        if(event.keyCode != 13) return;
-        if (event.target.value.trim().length === 0) return;
+    newDecriptionInput.addEventListener('keyup', ( event ) => {
 
-        todoStore.addTodo(event.target.value);
+        if ( event.keyCode != 13 ) return;
+        if ( event.target.value.trim().length === 0 ) return;
+
+        todoStore.addTodo( event.target.value );
         displayTodos();
         event.target.value = '';
-    })
+    });
+
+    todoListUL.addEventListener('click', (event) => {
+        const element = event.target.closest('[data-id]');
+        todoStore.toggleTodo(element.getAttribute('data-id'));
+        displayTodos()
+    });
 }
