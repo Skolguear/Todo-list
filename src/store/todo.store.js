@@ -6,7 +6,7 @@ const Filters = {
     Completed: 'Completed',
     Pending: 'Pending',
 }
-//State o estado, tiene un array de objetos intanciados con los datos que tendra cada todo(task) y el filtro
+//State o estado
 const state = {
     todos: [
         new Todo('Piedra del alma'),
@@ -19,14 +19,24 @@ const state = {
 }
 
 const initStore = () => {
-    console.log(state);
+    loadStore();
     console.log('InitStore 🥑');
 }
 
 const loadStore = () => {
-    throw new Error('Not implemented');
+    if (!localStorage.getItem('state')) return;
+
+    const {todos = [], filter = Filters.All} = JSON.parse(localStorage.getItem('state'));
+    state.todos = todos;
+    state.filter = filter;
     
 }
+
+const saveStateToLocalStorage = () => {
+    
+    localStorage.setItem('state', JSON.stringify(state))
+}
+
 //Nos permite filtrar los todos(task) segun su estado
 const getTodos = ( filter = Filters.All) => {
     switch (filter) {
@@ -48,6 +58,7 @@ const getTodos = ( filter = Filters.All) => {
 const addTodo = (description) => {
     if (!description) throw new Error(`Description is required`);
     state.todos.push(new Todo(description));
+    saveStateToLocalStorage()
 }
 
 /**
@@ -61,23 +72,26 @@ const toggleTodo = ( todoId ) => {
         }
         return todo;
     })
+    saveStateToLocalStorage()
 }
 
 /**
- * 
+ * Elimina todo
  * @param {String} todoId TODO indentified
  */
 const deleteTodo = ( todoId ) => {
     state.todos = state.todos.filter(todo => todo.id !== todoId);
-    
+    saveStateToLocalStorage()
 } 
 //Elimina el todo(task) completado.
 const deleteCompleted = (  ) => {
     state.todos = state.todos.filter(todo => todo.done);
+    saveStateToLocalStorage()
 }
-
+//Cambio del filtro
 const setFilter = ( newFilter = Filters.All) => {
     state.filter = newFilter;
+    saveStateToLocalStorage()
 }
 
 const getCurrentFilter = () => {
