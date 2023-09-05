@@ -1,4 +1,4 @@
-import { renderTodos } from './use-cases';
+import { renderTodos, renderPending } from './use-cases';
 import html from './app.html?raw'
 import todoStore, { Filters } from '../store/todo.store';
 
@@ -7,7 +7,8 @@ const ElementIDs = {
     ClearCompletedButton: '.clear-completed',
     TodoList: '.todo-list',
     NewTodoInput: '#new-todo-input',
-    TodoFilters: '.filtro'
+    TodoFilters: '.filtro',
+    PendingCountLabel: '#pending-count',
 }
 
 /**
@@ -22,8 +23,13 @@ export const App = ( elementId ) => {
     const displayTodos = () => {
         const todos = todoStore.getTodos( todoStore.getCurrentFilter() );
         renderTodos( ElementIDs.TodoList, todos );
+        updatePendingCount()
     }
+    const updatePendingCount = () => {
 
+        //esta funcion viene del archivo render-pending 
+        renderPending(ElementIDs.PendingCountLabel); //el argumento es el objeto de las refencias de id o clases en el html
+    }
     // Cuando la Función App() se llama
     (() => {
         const app = document.createElement('div');
@@ -64,13 +70,14 @@ export const App = ( elementId ) => {
         todoStore.deleteTodo( element.getAttribute( 'data-id' ) );
         displayTodos();
     })
-
+    //Evento para eliminar aquellos todos completados
     clearCompletedButton.addEventListener('click', (  ) => {
 
         todoStore.deleteCompleted()
         displayTodos()
 
     })
+    //Nos permite filtrar los Todos
     filterLIs.forEach( element => {
         element.addEventListener('click', (element) => {
             //recorre los filtros para buscar los elementos seleccionados
