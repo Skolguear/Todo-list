@@ -16,7 +16,7 @@ const ElementIDs = {
  * @param {String} elementId 
  */
 
-// el encargado de "redibujar" los todos
+// el encargado de "redibujar" los TODOs
 export const App = ( elementId ) => {
 
     //rebice uno de los filtros especificos del archivo todo.store de la funcion getTodos
