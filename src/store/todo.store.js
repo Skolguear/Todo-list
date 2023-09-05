@@ -1,7 +1,7 @@
 import { Todo } from '../todos/models/todo.models';
 
 //Filtros segun el estado de cada todo(task)
-const Filters = {
+export const Filters = {
     All: 'all',
     Completed: 'Completed',
     Pending: 'Pending',
@@ -85,7 +85,7 @@ const deleteTodo = ( todoId ) => {
 } 
 //Elimina el todo(task) completado.
 const deleteCompleted = (  ) => {
-    state.todos = state.todos.filter(todo => todo.done);
+    state.todos = state.todos.filter(todo => !todo.done);
     saveStateToLocalStorage()
 }
 //Cambio del filtro
